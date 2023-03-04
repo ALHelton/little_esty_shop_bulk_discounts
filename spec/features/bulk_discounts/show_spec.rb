@@ -32,4 +32,16 @@ RSpec.describe 'Bulk Discount Show Page', type: :feature do
     click_link("Edit")
     expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@fifteen.id}/edit")
   end
+
+  it 'After submitting edit form, I see that the discount`s attributes have been updated' do
+    visit "/merchant/#{@merchant1.id}/bulk_discounts/#{@fifteen.id}/edit"
+    fill_in("Percentage Discount", with: "0.40")
+    fill_in("Quantity Threshold", with: "50")
+    click_button("Update")
+
+    expect(page).to have_content("40% Discount")
+    expect(page).to have_content("Quantity Threshold: 50")
+    expect(page).to_not have_content("15% Discount")
+    expect(page).to_not have_content("Quantity Threshold: 15")
+  end
 end
