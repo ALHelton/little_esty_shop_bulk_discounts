@@ -1,0 +1,11 @@
+<%= link_to "Back", "/merchant/#{@merchant.id}/bulk_discounts/#{@discount.id}" %>
+
+<%= form_with url: "/merchant/#{@merchant.id}/bulk_discounts/#{@discount.id}", method: :patch, local: true do |form| %>
+  <p><%= form.label :percentage_discount, "Percentage Discount: " %></p>
+  <p><%= form.number_field :percentage_discount, value: @discount.percentage_discount, step: 0.01, min: 0.01, max: 1.00  %></p>
+  <br>
+  <p><%= form.label :quantity_threshold, "Quantity Threshold: "  %></p>
+  <p><%= form.number_field :quantity_threshold, value: @discount.quantity_threshold,  min: 1, max: 100000 %></p>
+  <br>
+  <p><%= form.submit 'Update' %></p>
+<% end %>

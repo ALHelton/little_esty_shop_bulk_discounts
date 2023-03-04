@@ -1,3 +1,5 @@
 <%= link_to "Back", "/merchant/#{@merchant.id}/bulk_discounts/" %>
 <h1><%= (@discount.percentage_discount * 100).round %>% Discount</h1>
 <p>Quantity Threshold: <%= @discount.quantity_threshold %></p>
+
+<p><%= link_to "Edit", "/merchant/#{@merchant.id}/bulk_discounts/#{@discount.id}/edit" %></p>
