@@ -23,4 +23,13 @@ RSpec.describe 'Bulk Discount Show Page', type: :feature do
     click_link "Back"
     expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/")
   end
+
+  it 'I see a link to edit the bulk discount' do
+      expect(page).to have_link("Edit")
+  end
+
+  it 'I click edit link and am taken to an edit discount page' do
+    click_link("Edit")
+    expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@fifteen.id}/edit")
+  end
 end
