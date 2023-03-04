@@ -17,6 +17,12 @@ RSpec.describe 'Bulk Discount Show Page', type: :feature do
 
     expect(page).to_not have_field("Percentage Discount", with: "0.25")
     expect(page).to_not have_field("Quantity Threshold", with: "20")
+  end
 
+  it 'When I change any/all of the info and click submit, am redirected to discount show page' do
+    fill_in("Percentage Discount", with: "0.30")
+    fill_in("Quantity Threshold", with: "30")
+    click_button("Update")
+    expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@fifteen.id}")
   end
 end
