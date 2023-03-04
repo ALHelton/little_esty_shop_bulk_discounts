@@ -10,7 +10,7 @@
             <%= link_to "#{(discount.percentage_discount * 100).round}% Discount", "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}" %>
             </h3>
             <p>Quantity Threshold: <%= discount.quantity_threshold %></p>
-            <%= button_to "Delete", "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}", method: :delete, data: { confirm: "Delete this Discount?" } %>
+            <%= button_to "Delete", "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}", method: :delete, :onclick=> "return confirm('Are you sure you want to delete this Discount?')" %>
             <br><br>
         <% end %>
       </p> 
