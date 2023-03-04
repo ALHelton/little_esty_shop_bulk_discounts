@@ -21,7 +21,7 @@ RSpec.describe 'Bulk Discounts Index' do
     expect(page).to have_content("Hair Care's Bulk Discounts")
     expect(page).to_not have_content("Dandelion Plant's Bulk Discounts")
     
-    within "#discount_list" do 
+    within "#discount_indiv" do 
       expect(page).to have_content("15% Discount")
       expect(page).to have_content("Quantity Threshold: 15")
 
@@ -56,5 +56,26 @@ RSpec.describe 'Bulk Discounts Index' do
   it 'When I click this link, I am taken to a new page' do
     click_link("Create New Discount")
     expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/new")
+  end
+
+  it 'next to each bulk discount, I see a link to delete it' do
+    within "#discount_indiv" do
+      expect(page).to have_button("Delete")
+    end
+  end
+
+  it 'I click delete link, am redirected to the bulk discounts index page, and no longer see that discount' do
+    first(:button, "Delete").click
+
+    expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts")
+    expect(page).to have_content("Discount Deleted Successfully")
+    expect(page).to_not have_content("15% Discount")
+    expect(page).to_not have_content("Quantity Threshold: 15")
+    expect(page).to have_content("20% Discount")
+    expect(page).to have_content("Quantity Threshold: 20")
+    expect(page).to have_content("25% Discount")
+    expect(page).to have_content("Quantity Threshold: 30")
+    expect(page).to have_content("30% Discount")
+    expect(page).to have_content("Quantity Threshold: 50")
   end
 end
