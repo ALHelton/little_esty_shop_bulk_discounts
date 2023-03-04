@@ -10,6 +10,12 @@ RSpec.describe 'Bulk Discount Show Page', type: :feature do
     visit "/merchant/#{@merchant1.id}/bulk_discounts/#{@fifteen.id}/edit"
   end
 
+  it 'has a link to return to the discount show page' do
+    expect(page).to have_link("Back")
+    click_link "Back"
+    expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@fifteen.id}")
+  end
+
   it 'I see a form to edit the discount, current attributes are prepopulated' do
     expect(page).to have_field("Percentage Discount", with: "0.15")
     expect(page).to have_field("Quantity Threshold", with: "15")

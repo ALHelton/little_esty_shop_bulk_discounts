@@ -18,7 +18,7 @@ RSpec.describe 'Bulk Discount Show Page', type: :feature do
     expect(page).to_not have_content("Quantity Threshold: 30")
   end
 
-  it 'has a link to return to the discount show page' do
+  it 'has a link to return to the discount index page' do
     expect(page).to have_link("Back")
     click_link "Back"
     expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/")
