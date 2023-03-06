@@ -58,4 +58,7 @@ class Merchant < ApplicationRecord
   def total_merchant_revenue(invoice_id)
     invoice_items.where(invoice_id: invoice_id).sum('invoice_items.unit_price * invoice_items.quantity')
   end
+
+  # def revenue_with_discount(invoice_id)
+  # end
 end

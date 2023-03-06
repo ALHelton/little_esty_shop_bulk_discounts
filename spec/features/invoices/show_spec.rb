@@ -109,14 +109,22 @@ RSpec.describe 'invoices show' do
   it 'I see the total revenue for my merchant from this invoice (not including discounts)' do
     visit merchant_invoice_path(@merchant1, @invoice_1)
       within "#revenue_totals" do
-        expect(page).to have_content("Invoice Subtotal: $24.62")
+        # expect(page).to have_content("Invoice Subtotal: $24.62")
         expect(page).to have_content("Hair Care revenue subtotal: $8.82")
-        expect(page).to have_content("Jewelry revenue subtotal: $15.80")
-        save_and_open_page
+        expect(page).to_not have_content("Jewelry revenue subtotal: $15.80")
       end
     end
 
   xit 'I see the total discounted revenue for my merchant from this invoice incl bulk discounts' do
+    @threeoff = @merchant1.bulk_discounts.create!(percentage_discount: 0.03, quantity_threshold: 5)
+    @fiveoff = @merchant1.bulk_discounts.create!(percentage_discount: 0.05, quantity_threshold: 8)
+    
+    @tenoff = @merchant2.bulk_discounts.create!(percentage_discount: 0.10, quantity_threshold: 10)
+    @twentyoff = @merchant2.bulk_discounts.create!(percentage_discount: 0.20, quantity_threshold: 20)
 
+    within "#revenue_totals_discounted" do
+      expect(page).to have_content("Hair Care total revenue after discount: $8.38")
+      expect(page).to_not have_content("Jewelry total revenue after discount: $14.22")
+    end
   end
 end

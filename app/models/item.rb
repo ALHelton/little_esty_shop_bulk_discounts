@@ -7,6 +7,7 @@ class Item < ApplicationRecord
   has_many :invoice_items
   has_many :invoices, through: :invoice_items
   belongs_to :merchant
+  has_many :bulk_discounts, through: :merchant
 
   enum status: [:disabled, :enabled]
 
@@ -19,4 +20,8 @@ class Item < ApplicationRecord
     .order("money desc", "created_at desc")
     .first&.created_at&.to_date
   end
+
+  # def discount
+
+  # end
 end
