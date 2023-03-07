@@ -166,26 +166,5 @@ describe Merchant do
       
       expect(@merchant1.total_merchant_revenue(@invoice_1.id)).to eq(270)
     end
-
-    # it '#revenue_with_discount' do
-    #   # @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 0, created_at: "2012-03-27 14:54:09")
-    #   @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 18, unit_price: 100, status: 0, created_at: "2012-03-27 14:54:09")
-    #   @ii_12 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_3.id, quantity: 40, unit_price: 200, status: 0, created_at: "2012-03-27 14:54:09")
-
-    #   @ii_13 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_5.id, quantity: 100, unit_price: 300, status: 0, created_at: "2012-03-29 14:54:09")
-    #   @ii_13 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_6.id, quantity: 250, unit_price: 600, status: 0, created_at: "2012-03-29 14:54:09")
-
-    #   @threeoff = @merchant1.bulk_discounts.create!(percentage_discount: 0.03, quantity_threshold: 20)
-    #   @fiveoff = @merchant1.bulk_discounts.create!(percentage_discount: 0.05, quantity_threshold: 50)
-      
-    #   @tenoff = @merchant2.bulk_discounts.create!(percentage_discount: 0.10, quantity_threshold: 300)
-    #   @twentyoff = @merchant2.bulk_discounts.create!(percentage_discount: 0.20, quantity_threshold: 400)
-
-    #   @m1_total_rev = @merchant1.total_merchant_revenue(@invoice_1.id)
-    #   @m2_total_rev = @merchant2.total_merchant_revenue(@invoice_1.id)
-
-    #   expect(@merchant1.revenue_with_discount(@invoice_1.id)).to eq(2556)
-    #   expect(@merchant1.revenue_with_discount(@invoice_1.id)).to eq(270)
-    # end
   end
 end

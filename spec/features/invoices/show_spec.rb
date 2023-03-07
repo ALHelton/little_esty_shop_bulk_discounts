@@ -30,11 +30,11 @@ RSpec.describe 'invoices show' do
     @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 2)
     @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 12, unit_price: 6, status: 1)
     @ii_12 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_3.id, quantity: 8, unit_price: 90, status: 1)
-    # @ii_13 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_5.id, quantity: 4, unit_price: 360, status: 1)
-    # @ii_14 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_6.id, quantity: 7, unit_price: 20, status: 1)
+    @ii_13 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_5.id, quantity: 4, unit_price: 360, status: 1)
+    @ii_14 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_6.id, quantity: 7, unit_price: 20, status: 1)
 
-    # @ii_2 = InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 2)
-    # @ii_3 = InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_2.id, quantity: 2, unit_price: 8, status: 2)
+    @ii_2 = InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 2)
+    @ii_3 = InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_2.id, quantity: 2, unit_price: 8, status: 2)
     @ii_4 = InvoiceItem.create!(invoice_id: @invoice_4.id, item_id: @item_3.id, quantity: 3, unit_price: 5, status: 1)
 
     @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
@@ -97,7 +97,6 @@ RSpec.describe 'invoices show' do
   it 'I see the total revenue for my merchant from this invoice (not including discounts)' do
     visit merchant_invoice_path(@merchant1, @invoice_1)
       within "#revenue_totals" do
-        # expect(page).to have_content("Invoice Subtotal: $24.62")
         expect(page).to have_content("Hair Care revenue subtotal: $8.82")
         expect(page).to_not have_content("Jewelry revenue subtotal: $15.80")
       end

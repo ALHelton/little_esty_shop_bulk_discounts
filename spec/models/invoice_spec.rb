@@ -64,18 +64,9 @@ RSpec.describe Invoice, type: :model do
         @ii_2 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 18, unit_price: 100, status: 0, created_at: "2012-03-27 14:54:09")
         @ii_3 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_3.id, quantity: 40, unit_price: 200, status: 0, created_at: "2012-03-27 14:54:09")
 
-        # @ii_4 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_5.id, quantity: 100, unit_price: 300, status: 0, created_at: "2012-03-29 14:54:09")
-        # @ii_5 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_6.id, quantity: 250, unit_price: 600, status: 0, created_at: "2012-03-29 14:54:09")
-
         @threeoff = @merchant1.bulk_discounts.create!(percentage_discount: 0.03, quantity_threshold: 10)
         @fiveoff = @merchant1.bulk_discounts.create!(percentage_discount: 0.05, quantity_threshold: 30)
       end
-      
-      # it '#matched_discounts' do
-      #   expect(@ii_1).to eq(nil)
-      #   expect(@ii_2).to eq(@threeoff)
-      #   expect(@ii_3).to eq(@fiveoff)
-      # end
 
       it '#discounted_items' do
         expect(@invoice_1.discounted_items).to eq([@ii_2, @ii_3])
@@ -84,10 +75,6 @@ RSpec.describe Invoice, type: :model do
       it '#discount_total' do
         expect(@invoice_1.discount_total).to eq(454)
       end
-
-      # it 'revenue_total_with_discount' do
-      #   expect(@invoice_1.revenue_total_with_discount).to eq(9436)
-      # end
     end
   end
 end

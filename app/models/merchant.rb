@@ -58,13 +58,4 @@ class Merchant < ApplicationRecord
   def total_merchant_revenue(invoice_id)
     invoice_items.where(invoice_id: invoice_id).sum('invoice_items.unit_price * invoice_items.quantity')
   end
-
-  # def revenue_with_discount(invoice_id)
-  #   # iis = invoice_items.where(invoice_id: invoice_id)
-  #   # iis.joins(:bulk_discounts).where('quantity = quantity_threshold')
-  #   # require 'pry'; binding.pry
-  #   # bulk_discounts.order(quantity_threshold: :asc)
-  #   # bulk_discounts.where('bulk_discounts.quantity_threshold <= 20')
-  #   # qualified_discounts = bulk_discounts.where('bulk_discounts.quantity_threshold <= ii.quantity')
-  # end
 end
