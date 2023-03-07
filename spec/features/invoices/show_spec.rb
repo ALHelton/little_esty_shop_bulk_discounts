@@ -2,6 +2,14 @@ require 'rails_helper'
 
 RSpec.describe 'invoices show' do
   before :each do
+    Merchant.destroy_all
+    Item.destroy_all
+    Customer.destroy_all
+    Invoice.destroy_all
+    InvoiceItem.destroy_all
+    Transaction.destroy_all
+    BulkDiscount.destroy_all
+
     @merchant1 = Merchant.create!(name: 'Hair Care')
     @merchant2 = Merchant.create!(name: 'Jewelry')
 
@@ -27,14 +35,15 @@ RSpec.describe 'invoices show' do
     @invoice_2 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-28 14:54:09")
 
     @invoice_4 = Invoice.create!(customer_id: @customer_3.id, status: 2)
+
     @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 2)
     @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 12, unit_price: 6, status: 1)
     @ii_12 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_3.id, quantity: 8, unit_price: 90, status: 1)
+
     @ii_13 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_5.id, quantity: 4, unit_price: 360, status: 1)
     @ii_14 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_6.id, quantity: 7, unit_price: 20, status: 1)
 
     @ii_2 = InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 2)
-    @ii_3 = InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_2.id, quantity: 2, unit_price: 8, status: 2)
     @ii_4 = InvoiceItem.create!(invoice_id: @invoice_4.id, item_id: @item_3.id, quantity: 3, unit_price: 5, status: 1)
 
     @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
@@ -108,7 +117,32 @@ RSpec.describe 'invoices show' do
     within "#revenue_totals" do
       expect(page).to have_content("Hair Care total revenue after discount: $8.38")
       expect(page).to_not have_content("Jewelry total revenue after discount: $14.22")
-      save_and_open_page
     end
+  end
+
+  it 'Next to each invoice item I see a link to the show page for the bulk discount that was applied' do
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+
+    # require 'pry'; binding.pry
+    within "#the-status-#{@ii_1.id}" do
+      expect(page).to have_link("5% Discount")
+    end
+
+    within "#the-status-#{@ii_11.id}" do
+      expect(page).to have_link("5% Discount")
+    end
+
+    # within "#the-status-#{@ii_12.id}" do
+    #   expect(page).to have_link("10% Discount")
+    # end
+  end
+
+  it 'when I click the discount link, it takes me to the discount show page' do
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+      within "#the-status-#{@ii_1.id}" do
+        click_link("5% Discount")
+        expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@fiveoff.id}")
+      end
+
   end
 end

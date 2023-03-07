@@ -16,7 +16,7 @@ class InvoiceItem < ApplicationRecord
     Invoice.order(created_at: :asc).find(invoice_ids)
   end
 
-  # def discount
-  #   require 'pry'; binding.pry
-  # end
+  def applied_discount
+    bulk_discounts.where('bulk_discounts.quantity_threshold <= ?', quantity).order(percentage_discount: :desc).first
+  end
 end
