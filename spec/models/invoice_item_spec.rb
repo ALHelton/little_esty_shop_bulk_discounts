@@ -11,6 +11,7 @@ RSpec.describe InvoiceItem, type: :model do
   describe "relationships" do
     it { should belong_to :invoice }
     it { should belong_to :item }
+    it { should have_many(:bulk_discounts).through(:item) }
   end
 
   describe "class methods" do
@@ -35,6 +36,7 @@ RSpec.describe InvoiceItem, type: :model do
       @ii_3 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 2)
       @ii_4 = InvoiceItem.create!(invoice_id: @i3.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 1)
     end
+
     it 'incomplete_invoices' do
       expect(InvoiceItem.incomplete_invoices).to eq([@i1, @i3])
     end

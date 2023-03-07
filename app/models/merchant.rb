@@ -54,4 +54,8 @@ class Merchant < ApplicationRecord
             .order("revenue desc", "invoices.created_at desc")
             .first&.created_at&.to_date
   end
+
+  def total_merchant_revenue(invoice_id)
+    invoice_items.where(invoice_id: invoice_id).sum('invoice_items.unit_price * invoice_items.quantity')
+  end
 end

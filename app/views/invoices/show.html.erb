@@ -55,4 +55,11 @@
     </tbody>
   </table>
 
+  <div id="revenue_totals">
+    <p>Invoice Subtotal: $<%= @invoice.total_revenue / 100 %></p>
+        <br>
+    <p><%= @merchant.name %> revenue subtotal: $<%= sprintf('%.2f', (@merchant.total_merchant_revenue(@invoice.id) / 100))%></p>
+    <p><%= @merchant.name %> total revenue after discount: $<%= sprintf('%.2f', (@merchant.total_merchant_revenue(@invoice.id) - @invoice.discount_total) / 100)%></p>
+        <br>
+  </div>
 </body>
