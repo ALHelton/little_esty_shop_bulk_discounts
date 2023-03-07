@@ -17,6 +17,11 @@ class InvoiceItem < ApplicationRecord
   end
 
   def applied_discount
-    bulk_discounts.where('bulk_discounts.quantity_threshold <= ?', quantity).order(percentage_discount: :desc).first
+    # bulk_discounts.where('bulk_discounts.quantity_threshold <= ?', quantity).order(percentage_discount: :desc).first
+    bulk_discounts.joins(:invoice_items)
+                  .where('invoice_items.id': self.id)
+                  .where('invoice_items.quantity >= bulk_discounts.quantity_threshold')
+                  .order(percentage_discount: :desc)
+                  .first
   end
 end
