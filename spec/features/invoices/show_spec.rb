@@ -152,6 +152,7 @@ RSpec.describe 'invoices show' do
     @five = @merchant.bulk_discounts.create!(percentage_discount: 0.05, quantity_threshold: 5)
 
     visit merchant_invoice_path(@merchant, @invoice)
+    save_and_open_page
       within "#the-status-#{@ii1.id}" do
         click_link("5% Discount")
         expect(current_path).to eq("/merchant/#{@merchant.id}/bulk_discounts/#{@five.id}")
