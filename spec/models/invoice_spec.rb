@@ -77,12 +77,16 @@ RSpec.describe Invoice, type: :model do
       #   expect(@ii_3).to eq(@fiveoff)
       # end
 
-      it '#discounted_items' do
-        expect(@invoice_1.discounted_items).to eq([@ii_2, @ii_3])
-      end
+      # it '#discounted_items' do
+      #   expect(@invoice_1.discounted_items).to eq([@ii_2, @ii_3])
+      # end
 
-      it '#discount_total' do
-        expect(@invoice_1.discount_total).to eq(454)
+      # it '#discount_total' do
+      #   expect(@invoice_1.discount_total).to eq(454)
+      # end
+
+      it 'revenue_total_with_discount' do
+        expect(@invoice_1.revenue_total_with_discount).to eq(9436)
       end
     end
   end

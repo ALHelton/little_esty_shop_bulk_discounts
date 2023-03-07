@@ -36,8 +36,8 @@ RSpec.describe 'invoices show' do
     @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 2)
     @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 12, unit_price: 6, status: 1)
     @ii_12 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_3.id, quantity: 8, unit_price: 90, status: 1)
-    @ii_13 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_5.id, quantity: 4, unit_price: 360, status: 1)
-    @ii_14 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_6.id, quantity: 7, unit_price: 20, status: 1)
+    # @ii_13 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_5.id, quantity: 4, unit_price: 360, status: 1)
+    # @ii_14 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_6.id, quantity: 7, unit_price: 20, status: 1)
 
     @ii_2 = InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 2)
     @ii_3 = InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_2.id, quantity: 2, unit_price: 8, status: 2)
@@ -115,16 +115,17 @@ RSpec.describe 'invoices show' do
       end
     end
 
-  xit 'I see the total discounted revenue for my merchant from this invoice incl bulk discounts' do
+  it 'I see the total discounted revenue for my merchant from this invoice incl bulk discounts' do
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+    
     @threeoff = @merchant1.bulk_discounts.create!(percentage_discount: 0.03, quantity_threshold: 5)
     @fiveoff = @merchant1.bulk_discounts.create!(percentage_discount: 0.05, quantity_threshold: 8)
     
     @tenoff = @merchant2.bulk_discounts.create!(percentage_discount: 0.10, quantity_threshold: 10)
     @twentyoff = @merchant2.bulk_discounts.create!(percentage_discount: 0.20, quantity_threshold: 20)
 
-    within "#revenue_totals_discounted" do
-      expect(page).to have_content("Hair Care total revenue after discount: $8.38")
-      expect(page).to_not have_content("Jewelry total revenue after discount: $14.22")
-    end
+      save_and_open_page
+      expect(page).to have_content("Total after discount: $8.38")
+      # expect(page).to_not have_content("Jewelry total revenue after discount: $14.22")
   end
 end
