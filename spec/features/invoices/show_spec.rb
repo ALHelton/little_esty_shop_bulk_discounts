@@ -129,7 +129,10 @@ RSpec.describe 'invoices show' do
     end
 
     within "#the-status-#{@ii_11.id}" do
-      save_and_open_page
+      expect(page).to have_link("5% Discount")
+    end
+
+    within "#the-status-#{@ii_12.id}" do
       expect(page).to have_link("5% Discount")
     end
   end
@@ -145,10 +148,8 @@ RSpec.describe 'invoices show' do
 
     @ii1 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it1.id, quantity: 5, unit_price: 10, status: 2)
     @ii2 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it1.id, quantity: 3, unit_price: 10, status: 2)
-    @ii3 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it1.id, quantity: 10, unit_price: 10, status: 2)
 
     @five = @merchant.bulk_discounts.create!(percentage_discount: 0.05, quantity_threshold: 5)
-    @ten = @merchant.bulk_discounts.create!(percentage_discount: 0.10, quantity_threshold: 10)
 
     visit merchant_invoice_path(@merchant, @invoice)
       within "#the-status-#{@ii1.id}" do

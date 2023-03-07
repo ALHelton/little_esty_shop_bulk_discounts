@@ -50,7 +50,9 @@
           <td style="text-align:center"><%= i.status%></td><br/>
         </tr>
       <% end %>
+
     </tbody>
   </table>
-
+      <p>Total Revenue: $<%= sprintf('%.2f', @invoice.total_revenue) %></p>
+      <p>Total Revenue with Discounts: $<%= sprintf('%.2f', @invoice.total_revenue - @invoice.discount_total)%> </p>
 </body>
