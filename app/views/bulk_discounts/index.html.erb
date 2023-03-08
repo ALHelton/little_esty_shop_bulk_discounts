@@ -1,17 +1,21 @@
-<body>
-  <h1><%= @merchant.name %>'s Bulk Discounts</h1>
+<h1><%= @merchant.name %>'s Bulk Discounts</h1>
 
-  <p><%= link_to "Create New Discount", "/merchant/#{@merchant.id}/bulk_discounts/new" %></p>
+<p><%= link_to "Create New Discount", "/merchant/#{@merchant.id}/bulk_discounts/new" %></p>
 
-  <ul id = 'discount_list'>
-    <section id = "discount_indiv" >
-      <p><% @merchant.bulk_discounts.each do |discount| %>
-            <h3><%= link_to "#{(discount.percentage_discount * 100).round}% Discount", "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}" %></h3>
-            <p>Quantity Threshold: <%= discount.quantity_threshold %></p>
-            <p><%= link_to "Delete", "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}", method: :delete, :onclick=> "return confirm('Are you sure you want to delete this Discount?')" %></p>
-            <br><br>
-        <% end %>
-      </p> 
-    </section>
-  </ul>
-</body>
+<ul id = 'discount_list'>
+  <section id = "discount_indiv" >
+    <p><% @merchant.bulk_discounts.each do |discount| %>
+          <h3><%= link_to "#{(discount.percentage_discount * 100).round}% Discount", "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}" %></h3>
+          <p>Quantity Threshold: <%= discount.quantity_threshold %></p>
+          <p><%= link_to "Delete", "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}", method: :delete, :onclick=> "return confirm('Are you sure you want to delete this Discount?')" %></p>
+          <br><br>
+      <% end %>
+    </p> 
+  </section>
+</ul>
+
+<h3>Upcoming Holidays:</h3>
+<% @holidays.each do |holiday| %>
+  <p>Holiday Name: <%= holiday.name %></p>
+  <p>Holiday Date: <%= holiday.date %></p>
+<%end%>
