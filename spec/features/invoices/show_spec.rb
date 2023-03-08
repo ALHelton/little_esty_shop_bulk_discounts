@@ -138,23 +138,27 @@ RSpec.describe 'invoices show' do
     @invoice = Invoice.create!(customer_id: @customer.id, status: 2, created_at: "2012-03-27 14:54:09")
 
     @ii1 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it1.id, quantity: 5, unit_price: 10, status: 2)
-    @ii2 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it2.id, quantity: 3, unit_price: 10, status: 2)
+    @ii2 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it2.id, quantity: 1, unit_price: 10, status: 2)
     @ii3 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it3.id, quantity: 3, unit_price: 10, status: 2)
 
     @five = @merchant.bulk_discounts.create!(percentage_discount: 0.05, quantity_threshold: 5)
     @three = @merchant.bulk_discounts.create!(percentage_discount: 0.03, quantity_threshold: 3)
-
-    # within "#the-status-#{@ii3.id}" do
-    #   # save_and_open_page
-    #   click_link("3% Discount")
-    #   expect(current_path).to eq("/merchant/#{@merchant.id}/bulk_discounts/#{@three.id}")
-    # end
+    
+    visit merchant_invoice_path(@merchant, @invoice)
+    within "#the-status-#{@ii3.id}" do
+      click_link("3% Discount")
+      expect(current_path).to eq("/merchant/#{@merchant.id}/bulk_discounts/#{@three.id}")
+    end
 
     visit merchant_invoice_path(@merchant, @invoice)
-      within "#the-status-#{@ii1.id}" do
-        # save_and_open_page
-        click_link("5% Discount")
-        expect(current_path).to eq("/merchant/#{@merchant.id}/bulk_discounts/#{@five.id}")
-      end
+    within "#the-status-#{@ii1.id}" do
+      click_link("5% Discount")
+      expect(current_path).to eq("/merchant/#{@merchant.id}/bulk_discounts/#{@five.id}")
+    end
+
+    visit merchant_invoice_path(@merchant, @invoice)
+    within "#the-status-#{@ii2.id}" do
+      expect(page).to have_content("N/A")
+    end
   end
 end
