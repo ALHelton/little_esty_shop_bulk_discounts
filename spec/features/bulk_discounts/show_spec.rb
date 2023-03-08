@@ -39,6 +39,7 @@ RSpec.describe 'Bulk Discount Show Page', type: :feature do
     fill_in("Quantity Threshold", with: "50")
     click_button("Update")
 
+    expect(page).to have_content("Discount Updated Successfully")
     expect(page).to have_content("40% Discount")
     expect(page).to have_content("Quantity Threshold: 50")
     expect(page).to_not have_content("15% Discount")
