@@ -2,13 +2,6 @@ require 'rails_helper'
 
 RSpec.describe 'invoices show' do
   before :each do
-    Merchant.destroy_all
-    Item.destroy_all
-    Customer.destroy_all
-    Invoice.destroy_all
-    InvoiceItem.destroy_all
-    Transaction.destroy_all
-    BulkDiscount.destroy_all
 
     @merchant1 = Merchant.create!(name: 'Hair Care')
     @merchant2 = Merchant.create!(name: 'Jewelry')
@@ -123,7 +116,6 @@ RSpec.describe 'invoices show' do
   it 'Next to each invoice item I see a link to the show page for the bulk discount that was applied' do
     visit merchant_invoice_path(@merchant1, @invoice_1)
 
-    # require 'pry'; binding.pry
     within "#the-status-#{@ii_1.id}" do
       expect(page).to have_link("5% Discount")
     end
@@ -137,23 +129,30 @@ RSpec.describe 'invoices show' do
     end
   end
 
-  it 'when I click the discount link, it takes me to the discount show page' do
+  it  'when I click the discount link, it takes me to the discount show page' do
     @merchant = Merchant.create!(name: 'Kitchen')
     @it1 = Item.create!(name: "knife", description: "its a knife", unit_price: 10, merchant_id: @merchant.id, status: 1)
     @it2 = Item.create!(name: "spoon", description: "its a spoon", unit_price: 20, merchant_id: @merchant.id, status: 1)
     @it3 = Item.create!(name: "fork", description: "its a fork", unit_price: 30, merchant_id: @merchant.id, status: 1)
     @customer = Customer.create!(first_name: 'Joey', last_name: 'Smith')
     @invoice = Invoice.create!(customer_id: @customer.id, status: 2, created_at: "2012-03-27 14:54:09")
-    @transaction = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice.id)
 
     @ii1 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it1.id, quantity: 5, unit_price: 10, status: 2)
-    @ii2 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it1.id, quantity: 3, unit_price: 10, status: 2)
+    @ii2 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it2.id, quantity: 3, unit_price: 10, status: 2)
+    @ii3 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @it3.id, quantity: 3, unit_price: 10, status: 2)
 
     @five = @merchant.bulk_discounts.create!(percentage_discount: 0.05, quantity_threshold: 5)
+    @three = @merchant.bulk_discounts.create!(percentage_discount: 0.03, quantity_threshold: 3)
+
+    # within "#the-status-#{@ii3.id}" do
+    #   # save_and_open_page
+    #   click_link("3% Discount")
+    #   expect(current_path).to eq("/merchant/#{@merchant.id}/bulk_discounts/#{@three.id}")
+    # end
 
     visit merchant_invoice_path(@merchant, @invoice)
-    save_and_open_page
       within "#the-status-#{@ii1.id}" do
+        # save_and_open_page
         click_link("5% Discount")
         expect(current_path).to eq("/merchant/#{@merchant.id}/bulk_discounts/#{@five.id}")
       end
