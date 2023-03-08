@@ -78,4 +78,16 @@ RSpec.describe 'Bulk Discounts Index' do
     expect(page).to have_content("30% Discount")
     expect(page).to have_content("Quantity Threshold: 50")
   end
+
+  it 'Holidays API' do
+    expect(page).to have_content("Upcoming Holidays:")
+    expect(page).to have_content("Holiday Name: Good Friday")
+    expect(page).to have_content("Holiday Date: 2023-04-07")
+
+    expect(page).to have_content("Holiday Name: Memorial Day")
+    expect(page).to have_content("Holiday Date: 2023-05-29")
+
+    expect(page).to have_content("Holiday Name: Juneteenth")
+    expect(page).to have_content("Holiday Date: 2023-06-19")
+  end
 end
