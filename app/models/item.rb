@@ -20,8 +20,4 @@ class Item < ApplicationRecord
     .order("money desc", "created_at desc")
     .first&.created_at&.to_date
   end
-
-  # def discount
-
-  # end
 end
